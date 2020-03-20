@@ -10,29 +10,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var typeorm_1 = require("typeorm");
-var Author_1 = require("./Author");
-var Book = /** @class */ (function () {
-    function Book() {
+var Book_1 = require("./Book");
+var Author = /** @class */ (function () {
+    function Author() {
     }
     __decorate([
         typeorm_1.PrimaryGeneratedColumn(),
         __metadata("design:type", Number)
-    ], Book.prototype, "ISBN", void 0);
+    ], Author.prototype, "id", void 0);
     __decorate([
         typeorm_1.Column(),
         __metadata("design:type", String)
-    ], Book.prototype, "title", void 0);
+    ], Author.prototype, "firstName", void 0);
     __decorate([
         typeorm_1.Column(),
-        __metadata("design:type", Number)
-    ], Book.prototype, "published_in", void 0);
+        __metadata("design:type", String)
+    ], Author.prototype, "lastName", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function (type) { return Author_1.Author; }, function (author) { return author.books; }),
-        __metadata("design:type", Author_1.Author)
-    ], Book.prototype, "author", void 0);
-    Book = __decorate([
+        typeorm_1.OneToMany(function (type) { return Book_1.Book; }, function (book) { return book.author; }),
+        __metadata("design:type", Array)
+    ], Author.prototype, "books", void 0);
+    Author = __decorate([
         typeorm_1.Entity()
-    ], Book);
-    return Book;
+    ], Author);
+    return Author;
 }());
-exports.Book = Book;
+exports.Author = Author;
