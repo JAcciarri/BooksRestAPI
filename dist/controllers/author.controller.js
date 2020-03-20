@@ -36,88 +36,68 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var typeorm_1 = require("typeorm");
-var Book_1 = require("../entities/Book");
 var Author_1 = require("../entities/Author");
-exports.getBooks = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var books;
+var typeorm_1 = require("typeorm");
+exports.getAuthors = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var authors;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(Book_1.Book).find({
-                    relations: ["author"]
-                })];
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Author_1.Author).find()];
             case 1:
-                books = _a.sent();
-                return [2 /*return*/, res.json(books)];
+                authors = _a.sent();
+                return [2 /*return*/, res.json(authors)];
         }
     });
 }); };
-exports.getOneBook = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var book;
+exports.getOneAuthor = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var author;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(Book_1.Book).findOne({
-                    where: { ISBN: req.params.isbn },
-                    relations: ["author"]
-                })];
-            case 1:
-                book = _a.sent();
-                if (book) {
-                    return [2 /*return*/, res.json(book)];
-                }
-                return [2 /*return*/, res.status(404).json({ 'msg': 'Book not found' })];
-        }
-    });
-}); };
-exports.createBook = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var newBook, author, result;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                newBook = new Book_1.Book();
-                newBook.published_in = req.body.published_in;
-                newBook.title = req.body.title;
-                return [4 /*yield*/, typeorm_1.getRepository(Author_1.Author).findOne(req.body.authorId)];
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Author_1.Author).findOne(req.params.id)];
             case 1:
                 author = _a.sent();
                 if (author) {
-                    newBook.author = author;
+                    return [2 /*return*/, res.json(author)];
                 }
-                return [4 /*yield*/, typeorm_1.getRepository(Book_1.Book).save(newBook)];
-            case 2:
-                result = _a.sent();
-                return [2 /*return*/, res.json(result)];
+                return [2 /*return*/, res.status(404).json({ 'msg': 'Author not found' })];
         }
     });
 }); };
-exports.updateBook = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var book, author, result;
+exports.createAuthor = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var newAuthor, result;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(Book_1.Book).findOne(req.params.isbn)];
+            case 0:
+                newAuthor = typeorm_1.getRepository(Author_1.Author).create(req.body);
+                return [4 /*yield*/, typeorm_1.getRepository(Author_1.Author).save(newAuthor)];
             case 1:
-                book = _a.sent();
-                if (!book) return [3 /*break*/, 5];
-                return [4 /*yield*/, typeorm_1.getRepository(Author_1.Author).findOne(req.body.authorId)];
-            case 2:
-                author = _a.sent();
-                if (!author) return [3 /*break*/, 4];
-                book.author = author;
-                typeorm_1.getRepository(Book_1.Book).merge(book, req.body);
-                return [4 /*yield*/, typeorm_1.getRepository(Book_1.Book).save(book)];
-            case 3:
                 result = _a.sent();
                 return [2 /*return*/, res.json(result)];
-            case 4: return [2 /*return*/, res.status(404).json({ 'msg': 'Author not found' })];
-            case 5: return [2 /*return*/, res.status(404).json({ 'msg': 'Book not found' })];
         }
     });
 }); };
-exports.deleteBook = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.updateAuthor = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var author, result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Author_1.Author).findOne(req.params.id)];
+            case 1:
+                author = _a.sent();
+                if (!author) return [3 /*break*/, 3];
+                typeorm_1.getRepository(Author_1.Author).merge(author, req.body);
+                return [4 /*yield*/, typeorm_1.getRepository(Author_1.Author).save(author)];
+            case 2:
+                result = _a.sent();
+                return [2 /*return*/, res.json(result)];
+            case 3: return [2 /*return*/, res.status(404).json({ 'msg': 'Author not found' })];
+        }
+    });
+}); };
+exports.deleteAuthor = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var result;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(Book_1.Book).delete(req.params.isbn)];
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Author_1.Author).delete(req.params.id)];
             case 1:
                 result = _a.sent();
                 return [2 /*return*/, res.json(result)];
